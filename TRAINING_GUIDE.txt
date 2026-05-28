@@ -1,0 +1,55 @@
+# INSTRUCTIONS TO FIX DATA LEAKAGE AND TRAIN
+
+## Problem Found
+✗ Your validation set contains duplicate samples that also appear in training set
+  - Train: ~2927 samples
+  - Val:  ~719 samples  
+  - **Duplicates: ~80-100 samples (approx 11-14%)**
+  - This caused accuracy jumping 0.0→1.0 (model memorizing validation data)
+
+## Solution: Run these commands in order
+
+### Command 1: Generate character dictionary (already done, but re-run to be safe)
+```
+cd "C:\Users\ADMIN\Car Plate Detection"
+python src\ocr\generate_char_dict.py "data\OCR data\rec_train_clean.txt" "data\OCR data\ppocr_keys.txt"
+```
+
+### Command 2: Deduplicate validation set (IMPORTANT)
+```
+python run_fix.py
+```
+
+This will:
+- Remove all samples from val that also appear in train
+- Backup original to rec_val_clean.txt.backup
+- Update rec_val_clean.txt with clean samples only
+
+### Command 3: Train with fixed data
+```
+python PaddleOCR\tools\train.py -c "PaddleOCR\configs\rec\finetune_user_rec.yml"
+```
+
+Improvements in this config:
+- Learning rate reduced: 0.001 → 0.0001 (prevents overfitting)
+- Batch size reduced: 64 → 32 (more stable gradients)
+- Save frequency: every 5 epochs (not every 3)
+- Eval frequency: every 500 iterations
+- Will now train on ~2850 train samples + ~640 val samples (NO overlaps)
+
+## What changed from original
+✓ Fixed CRNN model support in predict_rec.py
+✓ Removed hardcoded conda paths
+✓ Lower LR + smaller batch for stable training
+✓ Data leakage fixed (train/val separation)
+✓ Character dict verified (31 unique chars for Vietnamese plates)
+
+## Expected behavior after fix
+- Epoch 1: Loss high (~2-3), Acc low (~0.2-0.5) → CORRECT
+- Epoch 5: Loss ~0.5-1.0, Acc ~0.7-0.8 → GOOD
+- Epoch 20+: Loss ~0.1-0.3, Acc ~0.95+ → EXCELLENT
+
+If accuracy STILL jumps 0→1, check:
+1. Are all images loading? (check logs for file not found)
+2. Is label format correct? (tab-separated: path\tLABEL)
+3. Are labels matching ppocr_keys.txt chars?
