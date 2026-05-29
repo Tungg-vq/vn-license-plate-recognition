@@ -118,37 +118,33 @@ class PlateRecognitionPipeline:
         print("Loading OCR model...")
         self.recognizer = init_recognizer(ocr_dir, use_gpu=use_gpu)
 
-    def process_image(self, img_path):
-        original_img = cv2.imread(img_path)
+    def process_image(self, source):
+        if isinstance(source, str):
+            original_img = cv2.imread(source)
+        else:
+            original_img = source
+            
         if original_img is None:
-            print("Imaged not read")
-            return None
+            print("Image not read")
+            return None, "Image not read"
         
         display_img = original_img.copy()
-        
-        
         results = self.detector(original_img, verbose=False)
-        
+        final_text = "Plate not detected" 
         
         if not hasattr(results[0], 'obb') or results[0].obb is None or len(results[0].obb) == 0:
             print("No plates found by YOLO")
-            return display_img
+            return display_img, final_text
             
-        
         for obb in results[0].obb:
-            
             pts = obb.xyxyxyxy[0].cpu().numpy()
-            
-           
             crop_img = four_point_transform(original_img, pts)
-            
             h, w = crop_img.shape[:2]
-           
+            
             if w == 0 or h == 0: continue
             
             ratio = h / float(w)
             ocr_inputs = []
-            
             
             if ratio > 0.65:
                 mid_y = h // 2
@@ -158,29 +154,25 @@ class PlateRecognitionPipeline:
             else:
                 ocr_inputs = [crop_img]
                 
-            
             final_text = predict_license_plate(self.recognizer, ocr_inputs)
             
-           
             pts_int = np.int32(pts).reshape((-1, 1, 2))
             cv2.polylines(display_img, [pts_int], isClosed=True, color=(0, 255, 0), thickness=2)
             
-            
             rect = order_points(pts)
             tl_x, tl_y = int(rect[0][0]), int(rect[0][1])
-            
             
             cv2.rectangle(display_img, (tl_x, tl_y - 30), (tl_x + 180, tl_y), (0, 255, 0), -1)
             cv2.putText(display_img, final_text, (tl_x + 5, tl_y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
             
             print(f"Detected plate: {final_text}")
             
-        return display_img
+        return display_img, final_text
 
 if __name__ == "__main__":
     
     YOLO_MODEL = "result/training/Medium with data augmentation with OBB data/weights/best.pt"     
-    TEST_IMAGE = "data/inference data/Picture14.png" 
+    TEST_IMAGE = "data/inference data/anh1.png" 
     OCR_DIR = "./inference/model_chot_ha"     
     
     if os.path.exists(YOLO_MODEL) and os.path.exists(TEST_IMAGE):

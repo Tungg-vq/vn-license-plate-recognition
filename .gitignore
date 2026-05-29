@@ -23,3 +23,6 @@ paddle_ocr_pretrained_model/
 *.pdmodel
 *.pt
 *.onnx
+*.zip
+*.rar
+*.7z
