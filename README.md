@@ -68,3 +68,19 @@ To run the end-to-end pipeline on a sample image:
 ```bash
 python final_inference.py
 ```
+
+## 🚀 Deployment & Usage
+
+To launch the Smart Gate Guard Console, start the ASGI server using the following command:
+
+```bash
+python api_threaded.py
+```
+
+Once the server indicates it has started successfully, open your web browser and navigate to:
+**👉 `http://localhost:8000`**
+
+### UI Controls:
+- **Play Video:** Upload a local `.mp4` CCTV footage file to simulate real-world gate traffic.
+- **Webcam:** Switch the input feed to your live local camera.
+- **Confirm Check-In / Check-Out:** Manually trigger the state machine to log the vehicle and calculate parking fees based on duration.
