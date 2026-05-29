@@ -5,7 +5,6 @@
 ![PaddleOCR](https://img.shields.io/badge/PaddleOCR-3.5.0-orange)
 ![YOLO](https://img.shields.io/badge/YOLO-OBB-yellow)
 
-> *"The best way to predict the future is to create it."*
 
 An end-to-end Computer Vision pipeline designed to accurately detect and recognize Vietnamese vehicle license plates (both 1-line and 2-line formats) under various real-world conditions.
 
@@ -25,14 +24,18 @@ An end-to-end Computer Vision pipeline designed to accurately detect and recogni
 ## 📁 Project Structure
 ```text
 CAR_PLATE_DETECTION/
-├── data/                # Dataset, txt labels, and test inference images
-├── docs/                # Training guides and fix logs
-├── evaluation/          # Evaluation scripts and accuracy logs
-├── inference/           # Exported OCR model for deployment
-├── PaddleOCR/           # Core PaddleOCR library
-├── src/                 # Tooling: Data processing, cleaning, and augmentation
-├── final_inference.py              # Main pipeline script (End-to-End inference)
-└── requirements.txt     # Dependencies
+├── data/                        # Dataset, txt labels, and test inference images
+├── evaluation/                  # Evaluation scripts and accuracy logs
+├── inference/                   # Exported OCR model for deployment
+├── output/                      # Training logs and checkpoints for PaddleOCR
+├── paddle_ocr_pretrained_model/ # Base pre-trained model for PaddleOCR
+├── PaddleOCR/                   # Core PaddleOCR library
+├── result/                      # YOLO-OBB training results and weights (best.pt)
+├── runs/                        # YOLO-OBB inference/export logs
+├── src/                         # Tooling: Data processing, cleaning, and augmentation
+├── .gitignore                   # Git configuration to ignore large/unnecessary files
+├── final_inference.py           # Main pipeline script (End-to-End inference)
+└── requirements.txt
 ```
 
 ## ⚙️ Installation
@@ -48,12 +51,15 @@ cd vn-license-plate-recognition
 pip install -r requirements.txt
 ```
 
-**3. Download Pre-trained Weights**
-Due to GitHub's file size limits, the trained model weights are hosted externally.
+**3. Download Pre-trained Weights & Data**
+Due to GitHub's file size limits, the trained model weights and raw datasets are hosted externally on Google Drive.
 
-[Download YOLO & OCR Weights here](ĐỂ_LINK_GOOGLE_DRIVE_CỦA_ÔNG_VÀO_ĐÂY)
+* 📦 [Download Project Data & Weights Here](https://drive.google.com/drive/folders/1lXlYaD_IJtzu3wlFQ7e-kdiv7yw0E9f8?usp=drive_link)
 
-Extract the downloaded file and place the `paddle_ocr_pretrained_model/` and `runs/` folders into the root directory.
+*Instructions:*
+1. Download `result.zip`, `inference.zip`, and `data (1).zip` from the Drive link.
+2. Extract the files.
+3. Place the extracted `result/`, `inference/`, and `data/` folders directly into the root directory of this project.
 
 ## 🚀 Usage
 
