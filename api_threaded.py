@@ -283,9 +283,12 @@ def index():
         </div>
         <script>
             setInterval(() => {
-                fetch('/plate_data').then(r => r.json()).then(d => {
+                fetch('/plate_data?t=' + new Date().getTime())
+                .then(r => r.json())
+                .then(d => {
                     document.getElementById('plate-display').innerText = d.plate;
-                });
+                })
+                .catch(err => console.log("Lỗi mạng:", err));
             }, 500);
 
             function confirmAction(act) {
@@ -305,7 +308,6 @@ def index():
 
             function forceReloadStream() {
                 let wrapper = document.getElementById('video-wrapper');
-                // Xóa thẻ img cũ và nhét thẻ img mới tinh vào
                 wrapper.innerHTML = "<img id='video-display' src='/video_feed?rnd=" + Math.random() + "'>";
             }
 
@@ -318,7 +320,6 @@ def index():
                 let formData = new FormData();
                 formData.append("file", input.files[0]);
                 
-                // Tạm thời hiển thị chữ loading
                 document.getElementById('video-wrapper').innerHTML = "<h3 style='color:red;'>LOADING VIDEO...</h3>";
                 
                 fetch('/upload_video', {

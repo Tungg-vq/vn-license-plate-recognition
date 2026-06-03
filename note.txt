@@ -1,0 +1,23 @@
+
+yolo:(optuna + training)
+so sánh sự hiệu quả của data augmentation với model yolo11 small
+thấy có data augmentation hiệu quả hơn nên dùng data aug cho model medium và thấy tốt hơn small
+không train model large hay ultra vì medium đã đủ tốt
+xoay ảnh không hiệu quả nên phải train lại bằng mô hình yolo obb để lấy tọa độ 4 góc
+
+tạo file rec_train.txt và rec_val.txt từ data gốc(cropped, generated) và file csv(prepare_ocr_data)
+xóa file có trong cả val và train, xóa khoảng trắng trong file txt, ... (data fixing) -> rec_train_final, rec_val_final 
+chỉ train bằng những ảnh biển 1 dòng trong file data đã qua xử lí (vì paddle ocr chỉ nhận diện tốt được ảnh 1 dòng lí do ....) 
+sau khi test thì thấy model nhận diện tốt biển ô tô, nhưng không nhận diện tốt hàng 1 của biển xe máy, vì chỉ được train bằng
+các biển 1 dòng dài(biển ô tô), không có hàng trên của biển xe máy, nên phải gen thêm ảnh hàng trên biển xe máy (4 kí tự)(data generating, lưu ở data/synth_line1 và data/synth_line1.txt)
+merge data vừa gen với data dùng để train ban đầu để train lại từ đầu(merge...)
+eval bằng cách dùng open cv xoay thẳng ảnh, cắt đôi, nhận diện từng dòng 1 rồi ghép kết quả 2 dòng lại với nhau, so sánh với label
+fine tune bằng cách sửa lại cấu hình (paddleocr/config/rec...) rồi chạy lệnh train.py trong paddleocr/tools
+
+inference: tin nhắn
+
+
+
+
+
+
