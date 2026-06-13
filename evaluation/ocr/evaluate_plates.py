@@ -9,7 +9,7 @@ def apply_plate_rules(text):
     text = re.sub(r'[^A-Z0-9]', '', text)
     if len(text) < 5: return text
     
-    # 1. CẮT RÁC Ở ĐẦU
+   
     text = re.sub(r'^[A-Z]+(\d{2})', r'\1', text)
     if len(text) >= 9 and re.match(r'^1\d{2}[A-Z]', text):
         text = text[1:]

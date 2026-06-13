@@ -66,25 +66,25 @@ os.makedirs('data/OCR data', exist_ok=True)
 try:
     with open('data/OCR data/rec_train_final.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(sorted(train_lines)))
-    print("✓ Written: data/OCR data/rec_train_final.txt")
+    print("Written: data/OCR data/rec_train_final.txt")
 except Exception as e:
-    print(f"✗ Error: {e}")
+    print(f"Error: {e}")
     sys.exit(1)
 
 try:
     with open('data/OCR data/rec_val_final.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(val_clean))
-    print("✓ Written: data/OCR data/rec_val_final.txt")
+    print("Written: data/OCR data/rec_val_final.txt")
 except Exception as e:
-    print(f"✗ Error: {e}")
+    print(f"Error: {e}")
     sys.exit(1)
 
 try:
     with open('data/OCR data/ppocr_keys.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(chars))
-    print(f"✓ Written: data/OCR data/ppocr_keys.txt ({len(chars)} chars)")
+    print(f"Written: data/OCR data/ppocr_keys.txt ({len(chars)} chars)")
 except Exception as e:
-    print(f"✗ Error: {e}")
+    print(f"Error: {e}")
     sys.exit(1)
 
 print("\n" + "="*70)
@@ -95,8 +95,8 @@ print(f"  Train: {len(train_lines)} samples")
 print(f"  Val:   {len(val_clean)} samples (cleaned)")
 print(f"  Chars: {len(chars)} unique characters")
 print(f"\nFixed Issues:")
-print(f"  ✓ Removed {overlaps} duplicate samples from validation")
-print(f"  ✓ Regenerated character dictionary")
-print(f"  ✓ Config already updated with new hyperparameters")
+print(f"  Removed {overlaps} duplicate samples from validation")
+print(f"  Regenerated character dictionary")
+print(f"  Config already updated with new hyperparameters")
 print(f"\nNext: Run training command")
 print("="*70 + "\n")

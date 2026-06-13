@@ -59,9 +59,11 @@ class TextRecognizer(object):
             model_config = utility.load_config(f"{args.rec_model_dir}/inference.yml")
             model_name = model_config.get("Global", {}).get("model_name", "")
             # Allow older/simpler CRNN model names as well as PP-OCRv5 variants.
+            # START: [FIX] Add PP-OCRv4 model name to the supported list
             if model_name and model_name not in [
                 "PP-OCRv5_mobile_rec",
                 "PP-OCRv5_server_rec",
+                "en_PP-OCRv4_mobile_rec",
                 "korean_PP-OCRv5_mobile_rec",
                 "eslav_PP-OCRv5_mobile_rec",
                 "latin_PP-OCRv5_mobile_rec",

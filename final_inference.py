@@ -180,7 +180,7 @@ if __name__ == "__main__":
         pipeline = PlateRecognitionPipeline(YOLO_MODEL, OCR_DIR, use_gpu=False)
         
         
-        result_img = pipeline.process_image(TEST_IMAGE)
+        result_img, final_text = pipeline.process_image(TEST_IMAGE)
         
        
         if result_img is not None:

@@ -57,7 +57,7 @@ with open(OUT_TXT, 'w', encoding='utf-8', newline='\n') as f_out:
             font_size = random.randint(35, 45)
             font = ImageFont.truetype(FONT_PATH, font_size)
         except:
-            print("Lỗi: Không tìm thấy font! Sếp check lại đường dẫn FONT_PATH nhé.")
+            print("font not found")
             break
             
   

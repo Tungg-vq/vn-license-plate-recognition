@@ -16,6 +16,13 @@ fine tune bằng cách sửa lại cấu hình (paddleocr/config/rec...) rồi c
 
 inference: tin nhắn
 
+giải thích qua về kiến trúc yolo
+
+data preprocessing cho yolo, giải thích tại sao lại chọn các phép data augmentation, 
+
+các tiêu chí để đánh giá và so sánh các mô hình yolo(thêm speed,...)
+
+
 
 
 

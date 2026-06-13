@@ -114,7 +114,7 @@ Eval:
     name: SimpleDataSet
     data_dir: ./
     label_file_list:
-    - data/OCR data/rec_val_final.txt
+    - data/eval_chot_ha.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
